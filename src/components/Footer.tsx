@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   HomeIcon,
   HeartIcon,
@@ -8,24 +8,30 @@ import {
 } from "@heroicons/react/24/solid";
 
 const Footer = () => {
-  const [active, setActive] = useState("home");
+  const router = useRouter();
+  const pathname = usePathname();
 
   const menu = [
-    { name: "home", label: "Home", icon: HomeIcon },
-    { name: "favorites", label: "Favorites", icon: HeartIcon },
-    { name: "cart", label: "Cart", icon: ShoppingCartIcon },
+    { name: "home", label: "Home", icon: HomeIcon, path: "/" },
+    {
+      name: "favorites",
+      label: "Favorites",
+      icon: HeartIcon,
+      path: "/favorites",
+    },
+    { name: "cart", label: "Cart", icon: ShoppingCartIcon, path: "/cart" },
   ];
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-8 py-3 flex justify-between items-center shadow-md z-50 md:hidden">
       {menu.map((item) => {
         const Icon = item.icon;
-        const isActive = active === item.name;
+        const isActive = pathname === item.path;
 
         return (
           <button
             key={item.name}
-            onClick={() => setActive(item.name)}
+            onClick={() => router.push(item.path)}
             className={`flex flex-col items-center text-xs transition-all ${
               isActive ? "text-[#4B0F2F] font-semibold" : "text-gray-500"
             }`}
