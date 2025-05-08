@@ -1,4 +1,5 @@
 import { useFavorites } from "@/store/favorites";
+import { useCart } from "@/store/cart";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 
@@ -12,6 +13,7 @@ type Product = {
 
 export default function ProductCard({ product }: { product: Product }) {
   const { toggleFavorite, isFavorite } = useFavorites();
+  const { addToCart } = useCart();
   const favorite = isFavorite(product);
 
   return (
@@ -42,6 +44,12 @@ export default function ProductCard({ product }: { product: Product }) {
         <span className="block text-[#4B0F2F] text-base font-bold">
           {product.price}
         </span>
+        <button
+          onClick={() => addToCart(product)}
+          className="mt-3 bg-[#4B0F2F] text-white text-sm px-4 py-2 rounded-full hover:opacity-90 transition"
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );

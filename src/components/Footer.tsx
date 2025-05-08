@@ -6,10 +6,14 @@ import {
   HeartIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/solid";
+import { useCart } from "@/store/cart";
 
 const Footer = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const { cart } = useCart();
+
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const menu = [
     { name: "home", label: "Home", icon: HomeIcon, path: "/" },
@@ -36,7 +40,15 @@ const Footer = () => {
               isActive ? "text-[#4B0F2F] font-semibold" : "text-gray-500"
             }`}
           >
-            <Icon className={`h-6 w-6 mb-1 ${isActive ? "scale-110" : ""}`} />
+            <div className="relative">
+              <Icon className={`h-6 w-6 mb-1 ${isActive ? "scale-110" : ""}`} />
+
+              {item.name === "cart" && totalItems > 0 && (
+                <span className="absolute -top-1 -right-2 bg-[#4B0F2F] text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold animate-pulse">
+                  {totalItems}
+                </span>
+              )}
+            </div>
             {item.label}
           </button>
         );
